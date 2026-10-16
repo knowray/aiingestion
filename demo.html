@@ -1,62 +1,97 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AIIngestion.com — Pipeline Finder</title><meta name="description" content="Interactive guide to choosing an AI ingestion pipeline for your data.">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1820">
+<title>AIIngestion Pipeline Finder</title>
+<meta name="description" content="Describe your data, AI goal, operating needs, and constraints to get a starting ingestion route and company examples to compare.">
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f6f7;color:#152631;font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial}a{color:#08708f}.wrap{width:min(1120px,calc(100% - 32px));margin:auto}
-header{background:#071820;color:#fff;padding:18px 0}.bar{display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{color:white;text-decoration:none;font-size:19px;font-weight:800}.brand span{color:#59d8ff}nav a{color:#d9e9ee;text-decoration:none;margin-left:20px}
-main{padding:42px 0 70px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#1c718d;font-weight:800}h1{font-size:clamp(34px,5vw,58px);line-height:1.05;letter-spacing:-.045em;margin:10px 0 15px}.intro{font-size:18px;color:#566771;max-width:780px}
-.note{margin:22px 0;padding:14px 16px;border:1px solid #c8dce3;background:#eaf4f7;border-radius:12px;color:#35505b;font-size:14px}
-.layout{display:grid;grid-template-columns:1fr .9fr;gap:22px;align-items:start}.panel{background:#fff;border:1px solid #d7e0e4;border-radius:18px;padding:24px;box-shadow:0 6px 22px #142f3c0b}
-h2{font-size:22px;margin:0 0 18px}fieldset{border:0;padding:0;margin:0 0 20px}legend{font-weight:700;font-size:14px;margin-bottom:8px}
-select{width:100%;padding:11px;border:1px solid #bccbd1;border-radius:9px;font:inherit;background:white;color:#152631}
-.checks{display:flex;gap:8px;flex-wrap:wrap}.checks label{display:flex;gap:6px;align-items:center;padding:7px 10px;border:1px solid #ccd8dd;border-radius:999px;font-size:13px;cursor:pointer}.checks label:has(input:checked){background:#10252e;color:white;border-color:#10252e}
-.result{position:sticky;top:16px}.badge{display:inline-block;background:#e8f4f7;padding:5px 9px;border-radius:99px;color:#195b72;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
-.answer{font-size:25px;margin:12px 0}.box{border:1px solid #dbe3e7;background:#fbfcfc;border-radius:12px;padding:14px;margin:12px 0}.box h3{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#5f717b;margin:0 0 8px}.box ul{margin:0;padding-left:19px}.box li{margin:5px 0}.tags{display:flex;gap:7px;flex-wrap:wrap}.tag{border:1px solid #cbd8de;border-radius:99px;padding:4px 9px;font-size:13px}
-.small{font-size:13px;color:#60717b}.btn{display:inline-block;padding:10px 13px;border:1px solid #cbd8de;border-radius:9px;text-decoration:none;color:#1a3945;font-weight:700;margin:7px 8px 0 0}footer{background:#071820;color:#b4c1c7;padding:22px 0;font-size:13px}
-@media(max-width:780px){.layout{grid-template-columns:1fr}.result{position:static}.bar{align-items:flex-start;flex-direction:column}nav a{margin:0 18px 0 0}}
-</style></head>
-<body><header><div class="wrap bar"><a class="brand" href="index.html">AI<span>Ingestion</span>.com</a><nav><a href="index.html">Overview</a><a href="#builder">Pipeline Finder</a></nav></div></header>
-<main class="wrap"><div class="eyebrow">Interactive planning demo</div><h1>Find an ingestion path for your data</h1>
-<p class="intro">Select your data type, problem conditions, goal, and operating constraints. The recommendation changes as you make choices.</p>
-<div class="note"><strong>Prototype:</strong> this is a rules-based planning guide. It does not upload, inspect, or store files. Recommendations are capability categories, not vendor rankings or implementation guarantees.</div>
-<div class="layout" id="builder">
-<section class="panel"><h2>Describe your scenario</h2>
-<fieldset><legend>Data type</legend><select id="dataType"><option>Scanned PDF</option><option>Native PDF</option><option>Office files</option><option>Images</option><option>Web pages</option><option>Audio / video</option><option>Mixed archive</option></select></fieldset>
-<fieldset><legend>Conditions</legend><div class="checks" id="conditions"></div></fieldset>
-<fieldset><legend>Goal</legend><select id="goal"><option>RAG</option><option>Search</option><option>Agent workflows</option><option>Structured extraction</option><option>Knowledge base</option><option>Analytics preparation</option></select></fieldset>
-<fieldset><legend>Processing mode</legend><select id="mode"><option>Asynchronous</option><option>Batch</option><option>Streaming</option><option>Event-driven</option></select></fieldset>
-<fieldset><legend>Freshness</legend><select id="freshness"><option>Near-real-time</option><option>Instant</option><option>Scheduled</option><option>Overnight</option><option>Enterprise batch window</option></select></fieldset>
-<fieldset><legend>Constraints</legend><div class="checks" id="constraints"></div></fieldset>
+:root{--ink:#10242d;--muted:#536970;--paper:#f4f5ef;--white:#fff;--line:#d7dfd8;--forest:#123a38;--green:#b8efc5;--lime:#d8ff7a;--blue:#b9e6f2;--accent:#e4f56f}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:15px/1.58 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial}a{color:#21665d}.wrap{width:min(1140px,calc(100% - 36px));margin:auto}
+header{background:#f4f5ef;border-bottom:1px solid var(--line)}.nav{height:68px;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:850;text-decoration:none;color:var(--ink);font-size:19px;letter-spacing:-.04em}.brand i{font-style:normal;color:#347b70}.nav a:last-child{text-decoration:none;font-size:14px;color:#47605d}
+main{padding:48px 0 76px}.eyebrow,.kicker{color:#528478;font-size:12px;text-transform:uppercase;letter-spacing:.14em;font-weight:850}h1{font-size:clamp(38px,6vw,62px);line-height:.99;letter-spacing:-.06em;margin:12px 0 14px;max-width:850px}.intro{font-size:18px;color:var(--muted);max-width:790px;margin:0}
+.notice{margin:22px 0 27px;padding:13px 16px;border-radius:13px;background:#e7ece5;border:1px solid #d7dfd8;color:#435b58;font-size:13px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(350px,.9fr);gap:18px;align-items:start}.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:23px;box-shadow:0 10px 35px #182d2510}.panel h2{font-size:21px;letter-spacing:-.03em;margin:0 0 18px}
+fieldset{border:0;border-top:1px solid #e4e9e3;padding:17px 0 0;margin:17px 0 0}legend{padding:0 0 8px;font-size:13px;font-weight:800}.hint{display:block;color:#758583;font-size:12px;font-weight:450;margin-top:2px}
+.options{display:flex;flex-wrap:wrap;gap:8px}.options label{position:relative;cursor:pointer}.options input{position:absolute;opacity:0;pointer-events:none}.options span{display:inline-flex;padding:8px 11px;border:1px solid #ccd7d2;border-radius:999px;color:#405753;background:white;font-size:13px;transition:.15s}.options input:checked+span{background:var(--forest);border-color:var(--forest);color:white}.options input:focus-visible+span{outline:3px solid #80b7a8;outline-offset:2px}
+select{width:100%;padding:11px 12px;border:1px solid #ccd7d2;border-radius:10px;background:#fff;color:var(--ink);font:inherit}
+.result{position:sticky;top:14px}.result-head{display:flex;justify-content:space-between;gap:15px;align-items:center}.badge{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#376d61;background:#e9f3eb;padding:6px 9px;border-radius:999px;font-weight:850}.live{font-size:11px;color:#71817d}.result h2{font-size:26px;line-height:1.1;letter-spacing:-.04em;margin:13px 0 8px}.result p{margin:0;color:#50656a;font-size:14px}
+.diagram{display:grid;gap:7px;margin:17px 0}.stage{display:flex;align-items:center;gap:10px;border:1px solid #e1e8e2;border-radius:11px;padding:9px 11px;background:#fbfcf9;font-size:13px}.stage strong{font-size:10px;color:#59877a;width:20px}.stage.focus{background:#e9f3eb;border-color:#b8d6c9}
+.block{border-top:1px solid #e3e9e3;padding-top:15px;margin-top:16px}.block h3{font-size:11px;color:#71817d;letter-spacing:.12em;text-transform:uppercase;margin:0 0 9px}.block ul{padding-left:18px;margin:0;color:#334d4e;font-size:13px}.block li{margin:5px 0}
+.company-list{display:grid;gap:8px}.company{display:grid;grid-template-columns:1fr auto;gap:7px 12px;padding:11px 12px;border:1px solid #e1e8e2;border-radius:12px;background:#fcfdfa;text-decoration:none;color:inherit}.company:hover{border-color:#88b3a3;background:#f5faf4;text-decoration:none}.company strong{font-size:14px}.company em{font-style:normal;align-self:center;color:#4c7d70;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.company small{grid-column:1/-1;color:#62736d;font-size:12px}.disclaimer{font-size:11px!important;color:#71817d!important;margin-top:12px!important}.reset{margin-top:14px;padding:0;border:0;background:none;color:#397669;text-decoration:underline;cursor:pointer;font:inherit;font-size:13px}
+footer{background:#0c2428;color:#c2d1c9;padding:23px 0;font-size:13px}footer a{color:var(--lime);text-decoration:none}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.result{position:static}.nav{height:62px}}
+@media(max-width:520px){main{padding-top:35px}.wrap{width:min(1140px,calc(100% - 26px))}.panel{padding:18px}.result-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><a class="brand" href="index.html">AI<i>Ingestion</i>.com</a><a href="index.html">← Overview</a></div></header>
+<main class="wrap"><div class="eyebrow">Interactive planning tool</div><h1>What should happen to your data before AI uses it?</h1><p class="intro">Describe the source, outcome, freshness, and constraints. Get a practical starting route, the tradeoffs to check, and real company examples by role.</p>
+<div class="notice"><strong>Planning guide:</strong> this local demo runs in your browser. It does not upload or store your answers or files. The recommendation is a starting hypothesis, not a vendor ranking or implementation guarantee.</div>
+<div class="layout">
+<section class="panel" aria-labelledby="inputs-title"><h2 id="inputs-title">Your situation</h2>
+<fieldset><legend>1. What are you bringing in?<span class="hint">Choose the closest fit.</span></legend><select id="source"><option value="docs">Documents and files</option><option value="systems">Business apps, databases, or APIs</option><option value="media">Audio or video</option><option value="mixed">Several changing source types</option></select></fieldset>
+<fieldset><legend>2. What should AI help you do?</legend><select id="goal"><option value="rag">Answer questions using your information</option><option value="extract">Extract fields or facts into structured records</option><option value="search">Search and find relevant material</option><option value="analytics">Analyze trends or prepare reports</option><option value="agent">Give an agent current information or trigger actions</option></select></fieldset>
+<fieldset><legend>3. What makes the source difficult?<span class="hint">Select all that apply.</span></legend><div class="options" id="conditions"></div></fieldset>
+<fieldset><legend>4. How fresh must the information be?</legend><select id="freshness"><option value="scheduled">On a schedule (hourly, daily, or weekly)</option><option value="realtime">As changes happen or near real time</option><option value="batch">Large periodic batches</option><option value="unsure">I am not sure yet</option></select></fieldset>
+<fieldset><legend>5. What constraints should shape the design?<span class="hint">Select all that matter.</span></legend><div class="options" id="constraints"></div></fieldset>
 </section>
-<aside class="panel result" aria-live="polite"><span class="badge">Recommended path</span><h2 class="answer" id="answer"></h2><p id="explanation"></p>
-<div class="box"><h3>Suggested steps</h3><ul id="steps"></ul></div><div class="box"><h3>Capability categories</h3><div class="tags" id="categories"></div></div><div class="box"><h3>Tradeoffs to check</h3><ul id="tradeoffs"></ul></div>
-<p class="small" id="privacy"></p><a class="btn" href="index.html#market">View the market map</a><a class="btn" href="index.html">Back to overview</a></aside>
-</div></main><footer><div class="wrap">AIIngestion.com · A planning prototype for the data intake layer behind AI.</div></footer>
+<aside class="panel result" aria-live="polite" aria-atomic="true"><div class="result-head"><span class="badge">Suggested starting route</span><span class="live">Updates as you choose</span></div><h2 id="routeTitle"></h2><p id="routeText"></p><div class="diagram" id="diagram"></div><div class="block"><h3>Why this fits</h3><ul id="reasons"></ul></div><div class="block"><h3>Companies to compare by role</h3><div class="company-list" id="companies"></div><p class="disclaimer">Examples are based on public product documentation and identify a capability to investigate. They are not endorsements or a complete vendor comparison. Check current scope, pricing, security, deployment, and fit.</p></div><div class="block"><h3>Questions to resolve before building</h3><ul id="checks"></ul></div><button class="reset" type="button" id="reset">Reset to example scenario</button></aside>
+</div></main>
+<footer><div class="wrap">AIIngestion.com · <a href="index.html">Independent guidance for the data path behind AI</a></div></footer>
 <script>
-const conditions=["OCR needed","Tables present","Handwriting","Multi-column layout","Image-heavy","Structured forms"];
-const constraints=["Low cost","Highest accuracy","Privacy-sensitive","Private deployment","Open-source preference"];
-function checks(host,items,selected){const el=document.getElementById(host);items.forEach(v=>{const label=document.createElement("label"),input=document.createElement("input");input.type="checkbox";input.value=v;input.checked=selected.includes(v);label.append(input,document.createTextNode(v));el.append(label);});}
-checks("conditions",conditions,["OCR needed","Tables present"]);checks("constraints",constraints,["Highest accuracy","Privacy-sensitive"]);
-const q=id=>document.getElementById(id), picked=id=>[...q(id).querySelectorAll("input:checked")].map(x=>x.value);
-const routes={
-native:["Fast native-document path","Your files may already contain usable text. Start with direct parsing and add heavier processing only where quality checks show a need.",["Discover and classify sources","Extract existing text and metadata","Validate tables and reading order","Chunk around document structure","Load into search or a vector index"],["Document parsing","Chunking and retrieval prep","Search or vector destination"],["Check extraction quality before indexing","Escalate complex tables or layouts selectively"]],
-ocr:["OCR-first document path","Scans and image-based files need text recognition before retrieval or extraction. Validate results against representative pages.",["Assess scan quality","Apply OCR and preserve page references","Validate text, tables, and confidence","Chunk while retaining source context","Load into the selected retrieval destination"],["OCR and document AI","Layout-aware extraction","Validation and observability","Search or vector destination"],["Accuracy depends on scan quality and handwriting","Tables may need a separate layout-aware pass"]],
-layout:["Layout-aware extraction path","Forms, tables, or multi-column pages make structure important. Preserve relationships before chunking or loading.",["Identify layouts and document families","Extract blocks, tables, and reading order","Validate relationships and exceptions","Chunk by structure rather than raw length","Load with source and page provenance"],["Layout-aware extraction","OCR and document AI","Validation and observability"],["More processing can mean more cost and latency","Test table fidelity on a representative sample"]],
-integration:["Connector and synchronization path","Multiple or changing sources call for reliable connectors, change detection, and orchestration alongside content processing.",["Map sources, owners, and permissions","Connect through APIs, events, or scheduled jobs","Detect changes and preserve source lineage","Transform and validate changed content","Serve fresh context to search or AI tools"],["Connectors and integration fabric","Workflow orchestration","Change data capture or streaming","Governance and access controls"],["Plan for credentials, rate limits, and failed syncs","Set freshness targets to match the business need"]]
-};
-function update(){
- const t=q("dataType").value,c=picked("conditions"),x=picked("constraints"),goal=q("goal").value,mode=q("mode").value,fresh=q("freshness").value;
- const score={native:0,ocr:0,layout:0,integration:0};
- if(["Native PDF","Office files"].includes(t))score.native+=3;if(["Scanned PDF","Images"].includes(t))score.ocr+=4;if(["Mixed archive","Web pages","Audio / video"].includes(t))score.integration+=3;
- if(c.includes("OCR needed"))score.ocr+=5;if(c.includes("Handwriting"))score.ocr+=4;if(c.includes("Tables present"))score.layout+=3;if(c.includes("Structured forms"))score.layout+=4;if(c.includes("Multi-column layout"))score.layout+=5;if(c.includes("Image-heavy")){score.ocr++;score.layout+=2}
- if(goal==="Structured extraction")score.layout+=2;if(["Knowledge base","RAG","Search"].includes(goal))score.native++;if(goal==="Agent workflows"||["Streaming","Event-driven"].includes(mode))score.integration+=4;if(goal==="Analytics preparation")score.integration+=2;
- if(x.includes("Highest accuracy")){score.layout+=2;score.ocr++}if(x.includes("Low cost"))score.native+=2;if(x.includes("Privacy-sensitive")||x.includes("Private deployment"))score.integration+=2;
- if(["Instant","Near-real-time"].includes(fresh)||["Streaming","Event-driven"].includes(mode))score.integration+=2;
- const key=Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0],r=routes[key];
- q("answer").textContent=r[0];q("explanation").textContent=r[1];
- const list=(id,items)=>{const ul=q(id);ul.replaceChildren(...items.map(v=>{const li=document.createElement("li");li.textContent=v;return li}))};
- list("steps",r[2]);list("tradeoffs",r[4]);const tags=q("categories");tags.replaceChildren(...r[3].map(v=>{const s=document.createElement("span");s.className="tag";s.textContent=v;return s}));
- q("privacy").textContent=x.includes("Privacy-sensitive")||x.includes("Private deployment")?"Privacy cue: confirm data residency, access controls, retention, and deployment boundaries before selecting tools.":"Next step: test this route on a small, representative sample before choosing a production design.";
+const conditionOptions=["Scanned pages or images","Tables or forms","Handwriting","Many file types","Frequent updates","Strict source permissions"];
+const constraintOptions=["Keep costs modest","Accuracy matters most","Sensitive information","Prefer self-managed deployment","Existing cloud or data platform"];
+const sources={
+docs:[
+ {name:"Google Document AI",role:"Document parsing and extraction",url:"https://docs.cloud.google.com/document-ai/docs/overview",note:"Google Cloud's document-processing service; compare processors and API fit for your document types."},
+ {name:"Azure AI Document Intelligence",role:"Document parsing and extraction",url:"https://learn.microsoft.com/azure/ai-services/document-intelligence/overview",note:"Microsoft's service for building document-processing solutions; check models against representative files."},
+ {name:"Amazon Textract",role:"Text, forms, and tables",url:"https://docs.aws.amazon.com/textract/latest/dg/what-is.html",note:"AWS documents text, form, and table analysis APIs; consider layout and validation needs."},
+ {name:"Unstructured",role:"Document preparation and connectors",url:"https://docs.unstructured.io/platform-api/api/overview",note:"A document-ingestion and preprocessing option with source and destination connectors."},
+ {name:"Pinecone",role:"Search and retrieval destination",url:"https://docs.pinecone.io/guides/get-started/overview",note:"A managed database for semantic, full-text, and hybrid retrieval; it is a destination, not document OCR."}
+],
+systems:[
+ {name:"Airbyte",role:"Source connectors and data sync",url:"https://docs.airbyte.com/",note:"Connector-based data movement for syncing sources to destinations; check connector coverage and sync modes."},
+ {name:"Confluent",role:"Streaming and event processing",url:"https://docs.confluent.io/platform/current/streams/concepts.html",note:"Kafka Streams supports continuous transformations when event-driven freshness is required."},
+ {name:"Pinecone",role:"Search and retrieval destination",url:"https://docs.pinecone.io/guides/get-started/overview",note:"A retrieval destination to evaluate when the application needs semantic or hybrid search."}
+],
+media:[
+ {name:"Amazon Transcribe",role:"Speech-to-text",url:"https://docs.aws.amazon.com/transcribe/latest/dg/what-is.html",note:"AWS supports speech transcription from audio files and streaming audio; verify language and workflow fit."},
+ {name:"Google Cloud Speech-to-Text",role:"Speech-to-text",url:"https://docs.cloud.google.com/speech-to-text/docs/overview",note:"Google Cloud API for integrating speech recognition; check language, latency, and request limits."},
+ {name:"Unstructured",role:"Document and file preparation",url:"https://docs.unstructured.io/platform-api/api/overview",note:"May help with file partitioning and downstream preparation after transcription."},
+ {name:"Pinecone",role:"Search and retrieval destination",url:"https://docs.pinecone.io/guides/get-started/overview",note:"A retrieval destination to compare after transcript cleanup, chunking, and metadata design."}
+],
+mixed:[
+ {name:"Airbyte",role:"Source connectors and data sync",url:"https://docs.airbyte.com/",note:"A connector platform to investigate for repeatable source-to-destination syncs."},
+ {name:"Unstructured",role:"Document preparation and connectors",url:"https://docs.unstructured.io/platform-api/api/overview",note:"A document-ingestion option with source and destination connectors for preprocessing."},
+ {name:"Confluent",role:"Streaming and event processing",url:"https://docs.confluent.io/platform/current/streams/concepts.html",note:"Consider for event-driven or continuous data paths where the added operational complexity fits."},
+ {name:"Pinecone",role:"Search and retrieval destination",url:"https://docs.pinecone.io/guides/get-started/overview",note:"A possible search destination; compare it with existing search or database capabilities."}
+]};
+const $=id=>document.getElementById(id);
+function addOptions(id,items,selected){const host=$(id);items.forEach((text,i)=>{const label=document.createElement("label"),input=document.createElement("input"),span=document.createElement("span");input.type="checkbox";input.value=text;input.checked=selected.includes(text);input.id=id+"-"+i;span.textContent=text;label.htmlFor=input.id;label.append(input,span);host.append(label)})}
+addOptions("conditions",conditionOptions,["Tables or forms"]);
+addOptions("constraints",constraintOptions,["Accuracy matters most"]);
+function checked(id){return [...$(id).querySelectorAll("input:checked")].map(x=>x.value)}
+function liList(id,items){const ul=$(id);ul.replaceChildren(...items.map(text=>{const li=document.createElement("li");li.textContent=text;return li}))}
+function linkCard(v){const a=document.createElement("a");a.className="company";a.href=v.url;a.target="_blank";a.rel="noopener noreferrer";const name=document.createElement("strong");name.textContent=v.name;const role=document.createElement("em");role.textContent=v.role;const note=document.createElement("small");note.textContent=v.note;a.append(name,role,note);return a}
+function recommend(){
+ const source=$("source").value,goal=$("goal").value,fresh=$("freshness").value,c=checked("conditions"),x=checked("constraints");
+ let key="docs",title="",copy="",stages=[],why=[],checks=[];
+ if(source==="media"){key="media";title="Transcribe first, then prepare for search or AI";copy="Turn speech into text with timestamps and speaker or source metadata, validate a sample, then chunk and index it for the intended task.";stages=["Capture audio or video","Transcribe speech","Validate transcript and metadata","Chunk and preserve source timestamps","Deliver to search or an AI application"];why=["Media cannot be searched reliably until speech or visual information is extracted.","The transcript should keep timestamps and source references so answers can be checked.","Choose batch or streaming transcription based on freshness and clip length."];checks=["Check supported languages, accents, noise levels, and timestamps.","Decide whether video frames or visual details also need separate extraction."]}
+ else if(source==="systems"||source==="mixed"||fresh==="realtime"||goal==="analytics"||goal==="agent"){key=source==="mixed"?"mixed":"systems";title=fresh==="realtime"?"Connect and synchronize changes continuously":"Connect sources, then keep the right data in sync";copy="Start with source access, ownership, and change detection. Choose batch sync for slower updates or an event path when the application truly needs fresh data.";stages=["Map sources, owners, and permissions","Connect through APIs or connectors","Detect and validate changes","Transform and preserve lineage","Serve data to search, analytics, or agents"];why=["Business systems need reliable connectors and repeatable syncs.","Freshness goals determine whether scheduled sync, CDC, or event streaming is justified.","Permissions and failed-sync handling are part of the data path, not an afterthought."];checks=["Confirm APIs, rate limits, authentication, and source permissions.","Set a freshness target and decide how deletes and corrections propagate."]}
+ else if(c.includes("Scanned pages or images")||c.includes("Handwriting")){key="docs";title="Use OCR or document AI before retrieval";copy="Recognize text from scans, preserve page references, and validate results before chunking or loading. Add layout-aware handling if forms or tables must remain intact.";stages=["Sample and assess scan quality","Apply OCR or document extraction","Validate text, fields, and page references","Chunk with source context preserved","Load into search or retrieval"];why=["Scans and image-based PDFs have no dependable text layer to parse directly.","OCR accuracy changes with resolution, handwriting, and page quality.","Validation catches extraction errors before they enter AI answers."];checks=["Test representative clean, poor-quality, and handwritten pages.","Measure field and table accuracy against a human-checked sample."]}
+ else if(c.includes("Tables or forms")||c.includes("Many file types")||goal==="extract"){key="docs";title="Preserve document structure before extracting";copy="Use layout-aware parsing for tables and forms, keep page and source metadata, validate extracted fields, and then deliver structured output or retrieval-ready chunks.";stages=["Group document families","Parse layout, tables, and forms","Extract required fields or sections","Validate against source pages","Load structured records or retrieval chunks"];why=["Flattening pages into plain text can break table relationships and form fields.","Structured extraction requires a clear schema and exception path.","Representative samples reveal where manual review is still needed."];checks=["Define expected fields and how missing or ambiguous values are handled.","Keep links back to the source file and page for review."]}
+ else{key="docs";title="Parse clean digital files, then build retrieval";copy="Start with the existing text layer, preserve headings and metadata, chunk around the document's structure, and load into the search destination that fits your application.";stages=["Identify file types and source owners","Extract existing text and metadata","Check headings, tables, and reading order","Chunk around logical sections","Index for search or retrieval"];why=["Native digital files often have usable text already, so OCR may add cost without value.","Chunking and source metadata affect what retrieval can find and cite.","A small end-to-end test is more useful than choosing a vector database first."];checks=["Check whether existing enterprise search already meets the retrieval need.","Test answer quality with real questions and expected source passages."]}
+ if(x.includes("Sensitive information")||x.includes("Prefer self-managed deployment"))checks.unshift("Review data residency, retention, identity and access control, encryption, and deployment choices with your security owner.");
+ if(x.includes("Keep costs modest"))checks.push("Estimate processing, storage, embeddings, sync frequency, and maintenance costs with a small pilot.");
+ if(c.includes("Frequent updates")&&fresh==="scheduled")checks.push("Decide whether frequent updates mean hourly sync, event delivery, or only periodic refresh after review.");
+ $("routeTitle").textContent=title;$("routeText").textContent=copy;
+ const diagram=$("diagram");diagram.replaceChildren(...stages.map((s,i)=>{const div=document.createElement("div");div.className="stage"+(i===2?" focus":"");const n=document.createElement("strong");n.textContent=String(i+1).padStart(2,"0");const span=document.createElement("span");span.textContent=s;div.append(n,span);return div}));
+ liList("reasons",why);liList("checks",checks);
+ const vendors=sources[key],host=$("companies");host.replaceChildren(...vendors.map(linkCard));
 }
-document.querySelectorAll("select,input").forEach(el=>el.addEventListener("change",update));update();
+document.querySelectorAll("select,input").forEach(el=>el.addEventListener("change",recommend));
+$("reset").addEventListener("click",()=>{ $("source").value="docs";$("goal").value="rag";$("freshness").value="scheduled";document.querySelectorAll("#conditions input,#constraints input").forEach(x=>x.checked=false);document.querySelector('#conditions input[value="Tables or forms"]').checked=true;document.querySelector('#constraints input[value="Accuracy matters most"]').checked=true;recommend();window.scrollTo({top:0,behavior:"smooth"})});
+recommend();
 </script></body></html>
